@@ -106,14 +106,53 @@ TSet TSet::operator~(void) // дополнение
 
 // перегрузка ввода/вывода
 
+//{1, 2, 3} or 1, 2, 3 or 1 2 3
 istream &operator>>(istream &istr, TSet &s) // ввод
 {
-    istr >> s.BitField;
+    char symbol;
+
+    while (istr >> symbol) 
+    {
+        if ((symbol == '{') || (symbol == '}') || (symbol == ','))
+            continue;
+        else 
+        {
+            istr.putback(symbol);
+            int i;
+            istr >> i;
+            s.InsElem(i);
+        }
+    }
     return istr;
 }
 
 ostream& operator<<(ostream &ostr, const TSet &s) // вывод
 {
-    ostr << s.BitField;
+    ostr << "{";
+
+    int max_el = -1;
+    for (int j = s.GetMaxPower() - 1; j >= 0; j--)
+    {
+        if (s.IsMember(j)) 
+        {
+            max_el = j;
+            break;
+        }
+    }
+
+    if (max_el == -1) {
+        ostr << "}";
+        return ostr;
+    }
+
+    for (int i = 0; i < max_el; i++)
+    {
+        if (s.IsMember(i))
+        {
+            ostr << i << ", ";
+        }
+    }
+    ostr << max_el << "}";
+
     return ostr;
 }

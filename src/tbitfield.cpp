@@ -6,6 +6,8 @@
 // Битовое поле
 
 #include "tbitfield.h"
+#include <stdexcept>
+
 
 TBitField::TBitField(int len)
 {
@@ -207,11 +209,15 @@ istream &operator>>(istream &istr, TBitField &bf) // ввод
 	{
 		char symbol;
 		istr >> symbol;
+
 		if (symbol == '1')
 			bf.SetBit(i);
-		else
+		else if (symbol == '0')
 			bf.ClrBit(i);
-
+		else 
+		{
+			throw invalid_argument("Error: this is not BitField");
+		}
 	}
 	return istr;
 }
