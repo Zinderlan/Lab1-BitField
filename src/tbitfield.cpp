@@ -191,7 +191,6 @@ TBitField TBitField::operator~(void) // отрицание
 		{
 			res_mask |= GetMemMask(i);
 		}
-		res_mask = ~res_mask;
 
 		Res.pMem[MemLen - 1] &= res_mask;
 	}
